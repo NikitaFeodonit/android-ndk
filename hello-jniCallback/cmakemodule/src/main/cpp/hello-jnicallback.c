@@ -49,7 +49,7 @@ TickContext g_ctx;
  *   apps/samples/hello-jni/project/src/com/example/hellojni/HelloJni.java
  */
 jstring
-Java_com_example_hellojnicallback_MainActivity_stringFromJNI( JNIEnv* env, jobject thiz )
+Java_com_example_cmakemodule_NativeMethods_stringFromJNI( JNIEnv* env, jobject thiz )
 {
 #if defined(__arm__)
     #if defined(__ARM_ARCH_7A__)
@@ -155,7 +155,7 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
     }
 
     jclass  clz = (*env)->FindClass(env,
-                                    "com/example/hellojnicallback/JniHandler");
+                                    "com/example/cmakemodule/JniHandler");
     g_ctx.jniHelperClz = (*env)->NewGlobalRef(env, clz);
 
     jmethodID  jniHelperCtor = (*env)->GetMethodID(env, g_ctx.jniHelperClz,
@@ -184,7 +184,7 @@ void   sendJavaMsg(JNIEnv *env, jobject instance,
 
 /*
  * Main working thread function. From a pthread,
- *     calling back to MainActivity::updateTimer() to display ticks on UI
+ *     calling back to NativeMethods::updateTimer() to display ticks on UI
  *     calling back to JniHelper::updateStatus(String msg) for msg
  */
 void*  UpdateTicks(void* context) {
@@ -256,7 +256,7 @@ void*  UpdateTicks(void* context) {
  * Interface to Java side to start ticks, caller is from onResume()
  */
 JNIEXPORT void JNICALL
-Java_com_example_hellojnicallback_MainActivity_startTicks(JNIEnv *env, jobject instance) {
+Java_com_example_cmakemodule_NativeMethods_startTicks(JNIEnv *env, jobject instance) {
     pthread_t       threadInfo_;
     pthread_attr_t  threadAttr_;
 
@@ -280,7 +280,7 @@ Java_com_example_hellojnicallback_MainActivity_startTicks(JNIEnv *env, jobject i
  *    for a clean shutdown. The caller is from onPause
  */
 JNIEXPORT void JNICALL
-Java_com_example_hellojnicallback_MainActivity_StopTicks(JNIEnv *env, jobject instance) {
+Java_com_example_cmakemodule_NativeMethods_StopTicks(JNIEnv *env, jobject instance) {
     pthread_mutex_lock(&g_ctx.lock);
     g_ctx.done = 1;
     pthread_mutex_unlock(&g_ctx.lock);

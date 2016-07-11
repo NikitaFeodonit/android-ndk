@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package com.example.hellojnicallback;
+package com.example.cmakemodule;
 
 import android.os.Build;
 import android.support.annotation.Keep;
